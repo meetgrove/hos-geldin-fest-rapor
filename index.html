@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="HOŞ GELDİN FEST • Sanatçı Tercih Anketi Raporu">
+  <meta property="og:description" content="1,018 öğrencinin açık uçlu sanatçı tercihlerinin yapay zeka destekli detaylı analiz raporu.">
+  <meta property="og:image" content="https://meetgrove.github.io/hos-geldin-fest-rapor/HOS_GELDIN_FEST_Sanatci_Raporu.png">
+  <meta name="theme-color" content="#090d16">
+  <title>HOŞ GELDİN FEST - Sanatçı Belirleme Anketi Raporu</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cabinet+Grotesk:wght@800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #090d16;
+      color: #f1f5f9;
+      padding: 24px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    
+    @media (min-width: 768px) {
+      body {
+        padding: 40px;
+      }
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px 48px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 32px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25), transparent 70%);
+      pointer-events: none;
+    }
+    
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .tag-container {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    .badge-primary {
+      background: rgba(99, 102, 241, 0.2);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+    }
+    
+    .badge-accent {
+      background: rgba(244, 63, 94, 0.2);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.4);
+    }
+    
+    .date-badge {
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .title {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 42px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #94a3b8;
+      font-size: 18px;
+      max-width: 900px;
+    }
+    
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .stat-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .stat-value {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 40px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    
+    .stat-sub {
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .color-indigo { color: #818cf8; }
+    .color-rose { color: #fb7185; }
+    .color-emerald { color: #34d399; }
+    .color-cyan { color: #22d3ee; }
+    
+    /* Podium & Top 3 */
+    .podium-container {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.7));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 32px 40px;
+      margin-bottom: 32px;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 22px;
+      background: #6366f1;
+      border-radius: 2px;
+    }
+    
+    .podium-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 20px;
+      align-items: end;
+    }
+    
+    .podium-card {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .podium-1 {
+      border-color: rgba(245, 158, 11, 0.5);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(15, 23, 42, 0.9));
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px -10px rgba(245, 158, 11, 0.25);
+    }
+    
+    .podium-2 {
+      border-color: rgba(148, 163, 184, 0.3);
+      background: linear-gradient(180deg, rgba(148, 163, 184, 0.08), rgba(15, 23, 42, 0.9));
+    }
+    
+    .podium-3 {
+      border-color: rgba(180, 83, 9, 0.3);
+      background: linear-gradient(180deg, rgba(180, 83, 9, 0.08), rgba(15, 23, 42, 0.9));
+    }
+    
+    .podium-rank {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-weight: 900;
+      font-size: 18px;
+    }
+    
+    .rank-1 { background: #f59e0b; color: #000; box-shadow: 0 0 20px #f59e0b; }
+    .rank-2 { background: #94a3b8; color: #000; }
+    .rank-3 { background: #b45309; color: #fff; }
+    
+    .podium-name {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    
+    .podium-votes {
+      font-size: 20px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    
+    .podium-pct {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    
+    .podium-genre {
+      margin-top: 12px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+    }
+
+    /* Main Content Layout: Table & Sidebar */
+    .content-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    
+    /* Table Section */
+    .table-container {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 32px;
+    }
+    
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .custom-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      letter-spacing: 0.5px;
+    }
+    
+    .custom-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 14px;
+    }
+    
+    .row-rank {
+      font-weight: 800;
+      color: #64748b;
+      width: 40px;
+    }
+    
+    .row-artist {
+      font-weight: 700;
+      color: #ffffff;
+      font-size: 15px;
+    }
+    
+    .row-votes {
+      font-weight: 800;
+      color: #38bdf8;
+      text-align: right;
+      width: 80px;
+    }
+    
+    .row-bar-cell {
+      width: 180px;
+    }
+    
+    .bar-bg {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+    
+    .badge-rock { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-pop { background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .badge-rap { background: rgba(6, 182, 212, 0.2); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-campus { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-other { background: rgba(100, 116, 139, 0.2); color: #cbd5e1; border: 1px solid rgba(100, 116, 139, 0.3); }
+    
+    .genre-tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .sidebar-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 28px;
+    }
+    
+    .genre-bar-item {
+      margin-bottom: 18px;
+    }
+    
+    .genre-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    
+    .campus-spotlight {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 78, 59, 0.3));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 20px;
+      padding: 24px;
+    }
+    
+    .campus-title {
+      color: #34d399;
+      font-weight: 800;
+      font-size: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .campus-list {
+      list-style: none;
+    }
+    
+    .campus-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 13px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+    
+    .campus-list li:last-child {
+      border-bottom: none;
+    }
+    
+    /* Recommendations Box */
+    .recommendations {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(49, 46, 129, 0.25));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 24px;
+      padding: 32px 40px;
+    }
+    
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 16px;
+    }
+    
+    .rec-item {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    
+    .rec-item-title {
+      font-weight: 800;
+      font-size: 15px;
+      color: #818cf8;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .rec-item-text {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 20px;
+    }
+  
+    /* Mobile & Tablet Responsiveness */
+    @media (max-width: 1024px) {
+      .content-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .podium-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .podium-1 {
+        transform: none !important;
+        order: -1;
+      }
+      .rec-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .stats-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .title {
+        font-size: 28px !important;
+      }
+      .header {
+        padding: 24px 20px !important;
+      }
+      .podium-container {
+        padding: 20px 16px !important;
+      }
+      .table-container {
+        padding: 20px 16px !important;
+      }
+      .custom-table th, .custom-table td {
+        padding: 10px 8px !important;
+        font-size: 13px !important;
+      }
+      .header-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+      }
+      .action-btn {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .btn-download-png {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-download-png:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-1px);
+    }
+    
+    .btn-download-pdf {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    .btn-download-pdf:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="tag-container">
+        <span class="badge badge-primary">Resmi Anket Sonuçları</span>
+        <span class="badge badge-accent">Açık Uçlu Analiz</span>
+      </div>
+      <div class="date-badge">Ekim 2026 • Tekirdağ Namık Kemal Üniversitesi</div>
+    </div>
+    <h1 class="title">HOŞ GELDİN FEST • SANATÇI TERCİH RAPORU</h1>
+    <p class="subtitle">
+      Öğrencilerin <em>"HOŞ GELDİN FEST Görmek İstediğiniz Sanatçı"</em> sorusuna verdikleri yazılı cevapların yapay zeka destekli metin temizleme, tekilleştirme ve frekans analizi sonuçları.
+    </p>
+    <div class="header-actions">
+      <a href="HOS_GELDIN_FEST_Sanatci_Raporu.png" target="_blank" download class="action-btn btn-download-png">
+        <span>🖼️</span> Yüksek Kalite Görseli İndir (PNG)
+      </a>
+      <a href="HOS_GELDIN_FEST_Sanatci_Raporu.pdf" target="_blank" download class="action-btn btn-download-pdf">
+        <span>📄</span> Resmi Raporu İndir (PDF)
+      </a>
+    </div>
+  </div>
+
+  <!-- STATS GRID -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Toplam Form Yanıtı</div>
+      <div class="stat-value color-indigo">5,244</div>
+      <div class="stat-sub">Ankete katılan genel öğrenci</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Bu Soruya Yanıt Veren</div>
+      <div class="stat-value color-rose">1,018</div>
+      <div class="stat-sub">1,007 geçerli sanatçı önerisi</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">1. Sanatçı (Manifest)</div>
+      <div class="stat-value color-emerald">%21.8</div>
+      <div class="stat-sub">220 doğrudan oy ile açık ara lider</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Farklı Sanatçı Havuzu</div>
+      <div class="stat-value color-cyan">139</div>
+      <div class="stat-sub">Öğrencilerin önerdiği isim adedi</div>
+    </div>
+  </div>
+
+  <!-- PODIUM SECTION -->
+  <div class="podium-container">
+    <div class="section-title">Zirvedeki İsimler • İlk 3 Sanatçı Tercihi</div>
+    <div class="podium-grid">
+      <!-- 2. Hayko Cepkin -->
+      <div class="podium-card podium-2">
+        <div class="podium-rank rank-2">2</div>
+        <div class="podium-name">Hayko Cepkin</div>
+        <div class="podium-votes">91 Oy</div>
+        <div class="podium-pct">%9.0 Tercih Oranı</div>
+        <div class="podium-genre">Rock / Metal Efsanesi</div>
+      </div>
+      
+      <!-- 1. Manifest -->
+      <div class="podium-card podium-1">
+        <div class="podium-rank rank-1">👑 1</div>
+        <div class="podium-name">Manifest</div>
+        <div class="podium-votes">220 Oy</div>
+        <div class="podium-pct">%21.8 Tercih Oranı</div>
+        <div class="podium-genre">Festival Show / Pop Grubu</div>
+      </div>
+      
+      <!-- 3. Mor ve Ötesi -->
+      <div class="podium-card podium-3">
+        <div class="podium-rank rank-3">3</div>
+        <div class="podium-name">Mor ve Ötesi</div>
+        <div class="podium-votes">74 Oy</div>
+        <div class="podium-pct">%7.3 Tercih Oranı</div>
+        <div class="podium-genre">Alternatif Rock Devi</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT LAYOUT -->
+  <div class="content-layout">
+    
+    <!-- LEFT: TABLE -->
+    <div class="table-container">
+      <div class="section-title">En Çok Talep Edilen İlk 20 Sanatçı Sıralaması</div>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width: 36px;">#</th>
+            <th>Sanatçı / Grup</th>
+            <th>Müzik Türü</th>
+            <th style="text-align: right;">Oy</th>
+            <th style="text-align: right; width: 60px;">Oran</th>
+            <th style="width: 140px;">Dağılım</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-rank">01</td>
+            <td class="row-artist">Manifest</td>
+            <td><span class="genre-tag badge-pop">Pop / Show / Festival Grubu</span></td>
+            <td class="row-votes">220</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%21.8</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 100.0%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">02</td>
+            <td class="row-artist">Hayko Cepkin</td>
+            <td><span class="genre-tag badge-rock">Rock / Metal</span></td>
+            <td class="row-votes">91</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%9.0</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 41.4%; background: linear-gradient(90deg, #8b5cf6, #c4b5fd);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">03</td>
+            <td class="row-artist">Mor ve Ötesi</td>
+            <td><span class="genre-tag badge-rock">Rock / Alternatif</span></td>
+            <td class="row-votes">74</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%7.3</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 33.6%; background: linear-gradient(90deg, #8b5cf6, #c4b5fd);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">04</td>
+            <td class="row-artist">Motive</td>
+            <td><span class="genre-tag badge-rap">Rap / Hip-Hop</span></td>
+            <td class="row-votes">62</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%6.2</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 28.2%; background: linear-gradient(90deg, #06b6d4, #67e8f9);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">05</td>
+            <td class="row-artist">Hande Yener</td>
+            <td><span class="genre-tag badge-pop">Pop / Elektronik</span></td>
+            <td class="row-votes">32</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%3.2</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 14.5%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">06</td>
+            <td class="row-artist">Crush</td>
+            <td><span class="genre-tag badge-campus">Kampüs & Yerel Gruplar</span></td>
+            <td class="row-votes">30</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%3.0</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 13.6%; background: linear-gradient(90deg, #10b981, #6ee7b7);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">07</td>
+            <td class="row-artist">Emir Can İğrek</td>
+            <td><span class="genre-tag badge-pop">Alternatif Pop</span></td>
+            <td class="row-votes">28</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%2.8</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 12.7%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">08</td>
+            <td class="row-artist">Dolu Kadehi Ters Tut</td>
+            <td><span class="genre-tag badge-rock">Alternatif Rock / Indie</span></td>
+            <td class="row-votes">26</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%2.6</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 11.8%; background: linear-gradient(90deg, #8b5cf6, #c4b5fd);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">09</td>
+            <td class="row-artist">Sertab Erener</td>
+            <td><span class="genre-tag badge-pop">Pop</span></td>
+            <td class="row-votes">23</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%2.3</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 10.5%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">10</td>
+            <td class="row-artist">Yalın</td>
+            <td><span class="genre-tag badge-pop">Pop</span></td>
+            <td class="row-votes">21</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%2.1</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 9.5%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">11</td>
+            <td class="row-artist">Hadise</td>
+            <td><span class="genre-tag badge-pop">Pop</span></td>
+            <td class="row-votes">21</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%2.1</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 9.5%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">12</td>
+            <td class="row-artist">Blok3</td>
+            <td><span class="genre-tag badge-rap">Rap / Drill / Trap</span></td>
+            <td class="row-votes">20</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%2.0</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 9.1%; background: linear-gradient(90deg, #06b6d4, #67e8f9);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">13</td>
+            <td class="row-artist">Kenan Doğulu</td>
+            <td><span class="genre-tag badge-pop">Pop / Funk</span></td>
+            <td class="row-votes">19</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.9</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 8.6%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">14</td>
+            <td class="row-artist">Ebru Gündeş</td>
+            <td><span class="genre-tag badge-pop">Fantezi / Pop</span></td>
+            <td class="row-votes">17</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.7</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 7.7%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">15</td>
+            <td class="row-artist">Murat Boz</td>
+            <td><span class="genre-tag badge-pop">Pop</span></td>
+            <td class="row-votes">17</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.7</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 7.7%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">16</td>
+            <td class="row-artist">Duman</td>
+            <td><span class="genre-tag badge-rock">Rock</span></td>
+            <td class="row-votes">16</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.6</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 7.3%; background: linear-gradient(90deg, #8b5cf6, #c4b5fd);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">17</td>
+            <td class="row-artist">Gülşen</td>
+            <td><span class="genre-tag badge-pop">Pop</span></td>
+            <td class="row-votes">14</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.4</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 6.4%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">18</td>
+            <td class="row-artist">Gökhan Türkmen</td>
+            <td><span class="genre-tag badge-pop">Pop / Akustik</span></td>
+            <td class="row-votes">13</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.3</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 5.9%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">19</td>
+            <td class="row-artist">Edis</td>
+            <td><span class="genre-tag badge-pop">Pop</span></td>
+            <td class="row-votes">13</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.3</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 5.9%; background: linear-gradient(90deg, #f43f5e, #fda4af);"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="row-rank">20</td>
+            <td class="row-artist">Athena</td>
+            <td><span class="genre-tag badge-rock">Ska / Punk Rock</span></td>
+            <td class="row-votes">12</td>
+            <td style="text-align: right; font-weight: 600; color: #94a3b8;">%1.2</td>
+            <td class="row-bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 5.5%; background: linear-gradient(90deg, #8b5cf6, #c4b5fd);"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: SIDEBAR -->
+    <div class="sidebar">
+      
+      <!-- Genre Card -->
+      <div class="sidebar-card">
+        <div class="section-title" style="margin-bottom: 20px;">Müzik Türü Eğilimi</div>
+        <div class="genre-bar-item">
+          <div class="genre-header">
+            <span>Pop & Mainstream</span>
+            <span style="color: #f43f5e;">%46.8 (489 oy)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 46.8%; background: #f43f5e;"></div>
+          </div>
+        </div>
+        <div class="genre-bar-item">
+          <div class="genre-header">
+            <span>Rock & Alternatif</span>
+            <span style="color: #8b5cf6;">%25.7 (269 oy)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 25.7%; background: #8b5cf6;"></div>
+          </div>
+        </div>
+        <div class="genre-bar-item">
+          <div class="genre-header">
+            <span>Diğer & Global</span>
+            <span style="color: #64748b;">%11.9 (124 oy)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 11.9%; background: #64748b;"></div>
+          </div>
+        </div>
+        <div class="genre-bar-item">
+          <div class="genre-header">
+            <span>Rap & Hip-Hop</span>
+            <span style="color: #06b6d4;">%10.6 (111 oy)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 10.6%; background: #06b6d4;"></div>
+          </div>
+        </div>
+        <div class="genre-bar-item">
+          <div class="genre-header">
+            <span>Kampüs & Yerel Sahne</span>
+            <span style="color: #10b981;">%5.0 (52 oy)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 5.0%; background: #10b981;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campus Bands Spotlight -->
+      <div class="campus-spotlight">
+        <div class="campus-title">
+          <span>🎓</span> Kampüs & Yerel Gruplar
+        </div>
+        <p style="font-size: 13px; color: #a7f3d0; margin-bottom: 14px; line-height: 1.4;">
+          Öğrencilerin kendi müzik topluluklarını ve yerel grupları sahnede görme arzusu oldukça belirgin. Açılış grubu olarak mükemmel bir potansiyel!
+        </p>
+        <ul class="campus-list">
+          <li><span>Crush (Öğrenci Grubu)</span> <strong>30 Oy (#6)</strong></li>
+          <li><span>Zeki Arkun</span> <strong>8 Oy</strong></li>
+          <li><span>Perma</span> <strong>4 Oy</strong></li>
+          <li><span>Radikal</span> <strong>4 Oy</strong></li>
+          <li><span>Karma / Karm6</span> <strong>4 Oy</strong></li>
+          <li><span>Aura / Milan / Poizy</span> <strong>6 Oy</strong></li>
+        </ul>
+      </div>
+
+      <!-- Quick Takeaways -->
+      <div class="sidebar-card">
+        <div class="section-title" style="margin-bottom: 14px;">Önemli Bulgular</div>
+        <ul style="padding-left: 18px; font-size: 13px; color: #cbd5e1; line-height: 1.6;">
+          <li><strong>Manifest Tek Başına Güç:</strong> 220 oyla anketi domine etti.</li>
+          <li><strong>Rock Talebi Çok Net:</strong> Hayko Cepkin ve Mor ve Ötesi ilk 3'te.</li>
+          <li><strong>Rap Lideri Motive:</strong> 62 oy ile rap kategorisinde 1 numara.</li>
+          <li><strong>Pop İkilisinde Kadın Solistler:</strong> Hande Yener ve Sertab Erener öne çıkıyor.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="recommendations">
+    <div class="section-title">Organizasyon & Sahne Akışı Önerileri</div>
+    <div class="rec-grid">
+      <div class="rec-item">
+        <div class="rec-item-title">⚡ 1. Ana Kapanış Sahnesi</div>
+        <div class="rec-item-text">
+          <strong>Manifest</strong> veya <strong>Hayko Cepkin</strong> festivalin ana kapanış konseri için katılımcıların en büyük beklentisi durumunda. Bütçe ve takvime göre bu iki isimden biri mutlaka hedeflenmelidir.
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">🔥 2. Gençlik & Rap Enerjisi</div>
+        <div class="rec-item-text">
+          Hip-Hop kitlesinin belirgin favorisi <strong>Motive</strong> (62 oy) ve <strong>Blok3</strong> (20 oy). Özellikle akşam saatleri başlangıcında festival enerjisini zirveye taşımak için Motive en güçlü aday.
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-item-title">🎸 3. Açılış: Crush & Kampüs Grupları</div>
+        <div class="rec-item-text">
+          <strong>Crush</strong> 30 oy alarak Hadise ve Blok3 gibi devleri geride bıraktı. Ana sanatçılar öncesi kampüs gruplarına sahne verilmesi hem maliyeti düşürür hem de öğrenci katılımını tavan yaptırır.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    HOŞ GELDİN FEST & TekGenç Fest Sanatçı Anketi Raporu • Hazırlanma Tarihi: 11 Ekim 2026 • Otomatik Doğrulanmış Veri Seti (N=1,018)
+  </div>
+
+</body>
+</html>
